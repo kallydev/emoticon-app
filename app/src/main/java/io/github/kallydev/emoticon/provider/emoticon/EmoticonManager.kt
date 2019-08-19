@@ -16,15 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.kallydev.emoticon
+package io.github.kallydev.emoticon.provider.emoticon
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+object EmoticonManager {
 
-class MainActivity : AppCompatActivity() {
+    fun loadEmoticonPackage() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
     }
+
 }

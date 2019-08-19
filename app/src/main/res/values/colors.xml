@@ -3,4 +3,45 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="colorRed200">#EF9A9A</color>
+    <color name="colorRed500">#F44336</color>
+    <color name="colorRed700">#D32F2F</color>
+
+    <color name="colorPink200">#F48FB1</color>
+    <color name="colorPinkA200">#FF4081</color>
+
+    <color name="colorPurple200">#CE93D8</color>
+
+    <color name="colorDeepPurple200">#B39DDB</color>
+
+    <color name="colorIndigo200">#9FA8DA</color>
+
+    <color name="colorBlue200">#90CAF9</color>
+    <color name="colorBlue500">#2196F3</color>
+    <color name="colorBlue700">#1976D2</color>
+
+    <color name="colorLightBlue200">#81D4FA</color>
+
+    <color name="colorCyan200">#80DEEA</color>
+
+    <color name="colorTeal200">#80CBC4</color>
+
+    <color name="colorGreen200">#A5D6A7</color>
+
+    <color name="colorLightGreen200">#C5E1A5</color>
+
+    <color name="colorLime200">#E6EE9C</color>
+
+    <color name="colorYellow200">#FFF590</color>
+
+    <color name="colorAmber200">#FFE082</color>
+    <color name="colorAmberA200">#FFD740</color>
+
+    <color name="colorOrange200">#FFCC80</color>
+
+    <color name="colorDeepOrange200">#FFAB91</color>
+
+    <color name="colorBrown200">#BCAAA4</color>
+
 </resources>
