@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ An open source emoticon application
   ~ Copyright (C) 2019 KallyDev
   ~
@@ -21,9 +20,11 @@
 
     <item
         android:icon="@drawable/ic_home_grey_500_24dp"
+        android:state_checked="true"
         android:title="首页" />
     <item
         android:icon="@drawable/ic_cloud_download_grey_500_24dp"
+        android:state_pressed="true"
         android:title="云源" />
     <group>
         <item

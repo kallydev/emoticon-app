@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<!--
   ~ An open source emoticon application
   ~ Copyright (C) 2019 KallyDev
   ~
@@ -16,9 +16,13 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<resources>
-    <dimen name="dimen_16dp">16dp</dimen>
-    <dimen name="dimen_56dp">56dp</dimen>
-    <dimen name="dimen_72dp">72dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-</resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="io.github.kallydev.emoticon.module.settings.SettingsActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+</menu>

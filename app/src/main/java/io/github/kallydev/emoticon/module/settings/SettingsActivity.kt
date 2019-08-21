@@ -16,17 +16,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.kallydev.emoticon.provider.emoticon
+package io.github.kallydev.emoticon.module.settings
 
-import java.io.File
+import android.os.Bundle
+import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.app.AppCompatActivity;
+import io.github.kallydev.emoticon.R
 
-object EmoticonManager {
+import kotlinx.android.synthetic.main.activity_settings.*
 
-    val filePath = ""
+class SettingsActivity : AppCompatActivity() {
 
-    fun loadEmoticonPackage() {
-        val files =  (File(filePath).listFiles() as Array<File>).filter {
-            it.isDirectory
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_settings)
+        setSupportActionBar(toolbar)
+
+        fab.setOnClickListener { view ->
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
         }
     }
 

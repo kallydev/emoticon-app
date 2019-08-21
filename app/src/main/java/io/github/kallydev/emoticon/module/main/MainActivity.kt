@@ -22,16 +22,17 @@ import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.GravityCompat
 import androidx.core.widget.NestedScrollView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import io.github.kallydev.emoticon.R
 import io.github.kallydev.emoticon.base.BaseActivity
 import io.github.kallydev.emoticon.module.author.AuthorActivity
 import io.github.kallydev.emoticon.module.main.fragment.EmoticonFragment
+import io.github.kallydev.emoticon.module.settings.fragment.AddFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 
@@ -59,10 +60,18 @@ class MainActivity : BaseActivity(),
 
         activity_main_navigationView.setNavigationItemSelectedListener(this)
         activity_main_extendedFloatingActionButton.setOnClickListener {
-            val builder = AlertDialog.Builder(this, R.style.AppDialogTheme)
-            builder.setTitle("添加新表情")
-            builder.setView(R.layout.view_main_dialog_add_new_emoticon)
-            builder.show()
+            AddFragment().show(supportFragmentManager, "dialog")
+//            val dialog = BottomSheetDialog(this)
+//            val view = layoutInflater.inflate(R.layout.view_main_bottom_sheet_add_new_emoticon, null)
+//            dialog.setContentView(view)
+//            dialog.show()
+//            val builder = AlertDialog.Builder(this, R.style.AppDialogTheme)
+////            builder.setTitle("添加新表情")
+//            builder.setView(R.layout.view_main_dialog_add_new_emoticon)
+//            builder.setNegativeButton("取消", null)
+//            builder.setPositiveButton("导入", null)
+//            //builder.setNeutralButton("CCC", null)
+//            builder.show()
         }
         activity_main_nestedScrollView.setOnScrollChangeListener(this)
         val emoticonFragment = EmoticonFragment()

@@ -16,9 +16,9 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<resources>
-    <dimen name="dimen_16dp">16dp</dimen>
-    <dimen name="dimen_56dp">56dp</dimen>
-    <dimen name="dimen_72dp">72dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-</resources>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="172dp">
+
+
+</LinearLayout>

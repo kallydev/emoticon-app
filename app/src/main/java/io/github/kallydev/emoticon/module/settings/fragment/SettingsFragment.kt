@@ -16,18 +16,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.kallydev.emoticon.provider.emoticon
+package io.github.kallydev.emoticon.module.settings.fragment
 
-import java.io.File
+import androidx.fragment.app.Fragment
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import io.github.kallydev.emoticon.R
 
-object EmoticonManager {
+/**
+ * A placeholder fragment containing a simple view.
+ */
+class SettingsFragment : Fragment() {
 
-    val filePath = ""
-
-    fun loadEmoticonPackage() {
-        val files =  (File(filePath).listFiles() as Array<File>).filter {
-            it.isDirectory
-        }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_settings, container, false)
     }
-
 }
