@@ -54,9 +54,9 @@ class EmoticonPackageAdapter(private val context: Context) :
     }
 
     override fun onBindViewHolder(holder: EmoticonViewHolder, position: Int) {
-        holder.itemView.item_emoticon_package_materialCardView.setBackgroundColor(
-            context.resources.getColor(colors[Random.nextInt(colors.size)])
-        )
+//        holder.itemView.item_emoticon_package_materialCardView.setBackgroundColor(
+//            context.resources.getColor(colors[Random.nextInt(colors.size)])
+//        )
     }
 
     inner class EmoticonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

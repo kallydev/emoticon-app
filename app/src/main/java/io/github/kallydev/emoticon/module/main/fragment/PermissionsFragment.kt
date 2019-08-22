@@ -25,16 +25,14 @@ import io.github.kallydev.emoticon.adapter.EmoticonPackageAdapter
 import io.github.kallydev.emoticon.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_emoticon.view.*
 
-class EmoticonFragment : BaseFragment() {
+class PermissionsFragment: BaseFragment() {
 
     override fun getLayoutID(): Int {
-        return R.layout.fragment_emoticon
+        return R.layout.fragment_permissions
     }
 
     override fun onInit(view: View) {
-        view.fragment_emoticon_fastScrollRecyclerView.layoutManager =
-            GridLayoutManager(context!!, 4)
-        view.fragment_emoticon_fastScrollRecyclerView.adapter = EmoticonPackageAdapter(context!!)
+
     }
 
 }

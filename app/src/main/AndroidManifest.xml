@@ -17,6 +17,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".module.welcome.WelcomeActivity"
+            android:label="@string/title_activity_welcome"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".module.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.NoActionBar" />

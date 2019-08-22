@@ -15,19 +15,26 @@
         android:fitsSystemWindows="true"
         app:statusBarBackground="#EEEEEE">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/activity_main_nestedScrollView"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/activity_main_swipeRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusableInTouchMode="true">
+            android:layout_height="match_parent">
 
-            <FrameLayout
-                android:id="@+id/activity_main_frameLayout"
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/activity_main_nestedScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:descendantFocusability="blocksDescendants" />
+                android:focusableInTouchMode="true">
 
-        </androidx.core.widget.NestedScrollView>
+                <FrameLayout
+                    android:id="@+id/activity_main_frameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:descendantFocusability="blocksDescendants" />
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/activity_main_bottomAppBar"

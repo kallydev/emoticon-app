@@ -16,25 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.kallydev.emoticon.module.main.fragment
+package io.github.kallydev.emoticon.module.welcome
 
-import android.view.View
-import androidx.recyclerview.widget.GridLayoutManager
 import io.github.kallydev.emoticon.R
-import io.github.kallydev.emoticon.adapter.EmoticonPackageAdapter
-import io.github.kallydev.emoticon.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_emoticon.view.*
+import io.github.kallydev.emoticon.base.BaseActivity
 
-class EmoticonFragment : BaseFragment() {
+class WelcomeActivity : BaseActivity() {
 
     override fun getLayoutID(): Int {
-        return R.layout.fragment_emoticon
+        return R.layout.activity_welcome
     }
 
-    override fun onInit(view: View) {
-        view.fragment_emoticon_fastScrollRecyclerView.layoutManager =
-            GridLayoutManager(context!!, 4)
-        view.fragment_emoticon_fastScrollRecyclerView.adapter = EmoticonPackageAdapter(context!!)
+    override fun onInit() {
+
     }
 
 }
