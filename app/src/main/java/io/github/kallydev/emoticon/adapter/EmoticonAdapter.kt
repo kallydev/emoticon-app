@@ -28,8 +28,8 @@ import io.github.kallydev.emoticon.R
 import io.github.kallydev.emoticon.bean.EmoticonPackageBean
 import kotlinx.android.synthetic.main.item_emoticon_package.view.*
 
-class EmoticonPackageAdapter(private val context: Context) :
-    RecyclerView.Adapter<EmoticonPackageAdapter.EmoticonViewHolder>() {
+class EmoticonAdapter(private val context: Context) :
+    RecyclerView.Adapter<EmoticonAdapter.EmoticonViewHolder>() {
 
     private val emoticonPackageBeanArrayList = ArrayList<EmoticonPackageBean>()
     private var onItemClickListener: OnItemClickListener? = null
@@ -54,15 +54,15 @@ class EmoticonPackageAdapter(private val context: Context) :
     }
 
     override fun getItemCount(): Int {
-        return emoticonPackageBeanArrayList.size
+        return 100
     }
 
     override fun onBindViewHolder(holder: EmoticonViewHolder, position: Int) {
-        val emoticonPackageBean = emoticonPackageBeanArrayList[position]
+        //val emoticonPackageBean = emoticonPackageBeanArrayList[position]
         Glide.with(context)
-            .load(emoticonPackageBean.emoticonBeanArray[0].file)
+            .load(context.resources.getDrawable(R.drawable.ic_launcher_background))
             .into(holder.itemView.item_emoticon_package_appCompatImageView)
-        holder.itemView.item_emoticon_package_appCompatTextView.text = emoticonPackageBean.packageName
+        //holder.itemView.item_emoticon_package_appCompatTextView.text = emoticonPackageBean.packageName
         holder.itemView.setOnClickListener {
             onItemClickListener?.onItemClickListener(it, position)
         }

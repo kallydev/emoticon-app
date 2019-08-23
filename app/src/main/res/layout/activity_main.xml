@@ -26,11 +26,56 @@
                 android:layout_height="match_parent"
                 android:focusableInTouchMode="true">
 
-                <FrameLayout
-                    android:id="@+id/activity_main_frameLayout"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/activity_main_linearLayoutCompat"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:descendantFocusability="blocksDescendants" />
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/fragment_emoticon_appCompatTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="萌萌哒小表情"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <HorizontalScrollView
+                        android:id="@+id/activity_main_horizontalScrollView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:scrollbars="none">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:singleLine="true">
+
+                            <com.google.android.material.chip.Chip
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dimen_16dp"
+                                android:text="今天就是星期五噢" />
+
+                            <com.google.android.material.chip.Chip
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="即使最微弱的光芒，也有存在的价值" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
+                    </HorizontalScrollView>
+
+                    <FrameLayout
+                        android:id="@+id/activity_main_frameLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:descendantFocusability="blocksDescendants" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.core.widget.NestedScrollView>
 

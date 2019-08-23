@@ -18,16 +18,36 @@
 
 package io.github.kallydev.emoticon.provider.emoticon
 
+import android.os.Environment
+import io.github.kallydev.emoticon.bean.EmoticonBean
+import io.github.kallydev.emoticon.bean.EmoticonPackageBean
 import java.io.File
 
 object EmoticonManager {
 
-    val filePath = ""
+    @Suppress("DEPRECATION")
+    private val emoticonPackageRootFile =
+        File(Environment.getExternalStorageDirectory().absolutePath + "/kallydev/emoticon")
 
-    fun loadEmoticonPackage() {
-        val files =  (File(filePath).listFiles() as Array<File>).filter {
+    fun loadEmoticonPackage(): Array<EmoticonPackageBean> {
+        if (!emoticonPackageRootFile.exists()) {
+            emoticonPackageRootFile.mkdirs()
+        }
+        val emoticonPackageBeanArrayList = ArrayList<EmoticonPackageBean>()
+        val emoticonPackageFile = (emoticonPackageRootFile.listFiles() as Array<File>).filter {
             it.isDirectory
         }
+        emoticonPackageFile.forEach { it ->
+            val emoticonBeanArrayList = ArrayList<EmoticonBean>()
+            emoticonPackageBeanArrayList.add(EmoticonPackageBean(it.name, emoticonBeanArrayList))
+            val emoticonFile = (it.listFiles() as Array<File>).filter {
+                Regex(".*.(jpg|png|gif)").matches(it.name)
+            }
+            emoticonFile.forEach {
+                emoticonBeanArrayList.add(EmoticonBean(it))
+            }
+        }
+        return emoticonPackageBeanArrayList.toTypedArray()
     }
 
 }

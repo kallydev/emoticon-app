@@ -21,54 +21,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/fragment_emoticon_appCompatTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="萌萌哒小表情"
-        android:textSize="22sp"
-        android:textStyle="bold" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/fragment_emoticon_linearLayoutCompat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-
-        <com.google.android.material.chip.ChipGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen_16dp"
-                android:text="全部" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="测试" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="我也不知道放点什么" />
-
-        </com.google.android.material.chip.ChipGroup>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_emoticon_fastScrollRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="8dp"
         android:overScrollMode="never" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

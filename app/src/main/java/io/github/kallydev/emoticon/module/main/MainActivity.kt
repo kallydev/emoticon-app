@@ -18,69 +18,58 @@
 
 package io.github.kallydev.emoticon.module.main
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.GravityCompat
 import androidx.core.widget.NestedScrollView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import io.github.kallydev.emoticon.R
+import io.github.kallydev.emoticon.adapter.EmoticonPackageAdapter
 import io.github.kallydev.emoticon.base.BaseActivity
+import io.github.kallydev.emoticon.bean.EmoticonPackageBean
 import io.github.kallydev.emoticon.module.author.AuthorActivity
-import io.github.kallydev.emoticon.module.main.fragment.EmoticonFragment
-import io.github.kallydev.emoticon.module.main.fragment.PermissionsFragment
+import io.github.kallydev.emoticon.module.main.MainActivity.Fragment.EMOTICON_PACKAGE
+import io.github.kallydev.emoticon.module.main.MainActivity.Fragment.PERMISSION
+import io.github.kallydev.emoticon.module.main.fragment.EmoticonPackageFragment
+import io.github.kallydev.emoticon.module.main.fragment.PermissionFragment
 import io.github.kallydev.emoticon.provider.fragment.FragmentManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_emoticon.view.*
 import kotlinx.coroutines.*
-import permissions.dispatcher.*
 
-open class MainActivity : BaseActivity(),
+class MainActivity : BaseActivity(), MainView,
     NavigationView.OnNavigationItemSelectedListener,
     NestedScrollView.OnScrollChangeListener,
-    SwipeRefreshLayout.OnRefreshListener {
+    SwipeRefreshLayout.OnRefreshListener,
+    View.OnClickListener {
 
+    private val model = MainModel()
+    private val viewModel = MainViewModel(this, model)
     private val fragmentManager = FragmentManager(supportFragmentManager)
 
-    private enum class Page {
-        HOME
+    object Fragment {
+        const val EMOTICON_PACKAGE = "EmoticonPackageFragment"
+        const val PERMISSION = "PermissionFragment"
     }
-
-    private var page = Page.HOME
 
     override fun getLayoutID(): Int {
         return R.layout.activity_main
     }
 
     override fun onInit() {
-        initFragment()
         initView()
-        requestPermission()
-    }
-
-    override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        GlobalScope.launch {
-            delay(240)
-            withContext(Dispatchers.Main) {
-                val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    this@MainActivity,
-                    activity_main_extendedFloatingActionButton,
-                    "extendedFloatingActionButton"
-                ).toBundle()
-                startActivity(Intent(this@MainActivity, AuthorActivity::class.java), bundle)
-            }
-        }
-        activity_main_drawerLayout.closeDrawer(GravityCompat.START)
-        return true
+        initFragment()
+        onRefresh()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -93,6 +82,14 @@ open class MainActivity : BaseActivity(),
             .setAnchorView(activity_main_extendedFloatingActionButton)
             .show()
         return true
+    }
+
+    override fun onBackPressed() {
+        if (activity_main_drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            activity_main_drawerLayout.closeDrawer(GravityCompat.START)
+            return
+        }
+        moveTaskToBack(false)
     }
 
     override fun onScrollChange(v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) {
@@ -118,27 +115,68 @@ open class MainActivity : BaseActivity(),
         }
     }
 
-    override fun onRefresh() {
-
+    override fun onNavigationItemSelected(p0: MenuItem): Boolean {
+        when (p0.itemId) {
+            else -> {
+                openAuthorActivity()
+            }
+        }
+        activity_main_drawerLayout.closeDrawer(GravityCompat.START)
+        return true
     }
 
-    override fun onBackPressed() {
-        if (activity_main_drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            activity_main_drawerLayout.closeDrawer(GravityCompat.START)
-            return
+    override fun onClick(p0: View?) {
+        when (p0!!) {
+            activity_main_extendedFloatingActionButton -> {
+                if (!activity_main_extendedFloatingActionButton.isExtended) {
+                    smoothScrollToTop()
+                    return
+                }
+                val view = LayoutInflater.from(this).inflate(R.layout.fragment_add_emoticon, null, false)
+                val bottomSheetDialog = BottomSheetDialog(this)
+                bottomSheetDialog.setContentView(view)
+                bottomSheetDialog.show()
+                // AddEmoticonFragment().show(supportFragmentManager, "dialog")
+            }
         }
-        moveTaskToBack(false)
+    }
+
+    override fun onRefresh() {
+        viewModel.checkPermissionsAndLoadEmoticonPackage(rxPermissions!!)
+    }
+
+    override fun showFragment(fragmentName: String) {
+        fragmentManager.showFragment(fragmentName)
+    }
+
+    override fun onEmoticonPackageLoading() {
+        if (!activity_main_swipeRefreshLayout.isRefreshing) {
+            activity_main_swipeRefreshLayout.isRefreshing = true
+        }
+    }
+
+    override fun onEmoticonPackageLoadedSuccessful(emoticonPackageBeanArray: Array<EmoticonPackageBean>) {
+        activity_main_swipeRefreshLayout.isRefreshing = false
+        val emoticonFragment = fragmentManager.getFragment("EmoticonPackageFragment") as EmoticonPackageFragment
+        val emoticonFragmentRecyclerView = emoticonFragment.view!!.fragment_emoticon_fastScrollRecyclerView
+        val emoticonPackageAdapter = emoticonFragmentRecyclerView.adapter as EmoticonPackageAdapter
+        emoticonPackageAdapter.loadEmoticonPackage(emoticonPackageBeanArray)
+    }
+
+    override fun onEmoticonPackageLoadedError(state: Int) {
+        activity_main_swipeRefreshLayout.isRefreshing = false
+        showFragment(PERMISSION)
     }
 
     private fun initFragment() {
         fragmentManager.addFragmentArray(
             R.id.activity_main_frameLayout,
             hashMapOf(
-                "EmoticonFragment" to EmoticonFragment(),
-                "PermissionsFragment" to PermissionsFragment()
+                EMOTICON_PACKAGE to EmoticonPackageFragment(),
+                PERMISSION to PermissionFragment()
             )
         )
-        fragmentManager.showFragment("EmoticonFragment")
+        fragmentManager.hideAllFragment()
     }
 
     private fun initView() {
@@ -155,18 +193,7 @@ open class MainActivity : BaseActivity(),
         actionBarDrawerToggle.syncState()
 
         activity_main_navigationView.setNavigationItemSelectedListener(this)
-        activity_main_extendedFloatingActionButton.setOnClickListener {
-            if (!activity_main_extendedFloatingActionButton.isExtended) {
-                val emoticonFragment = fragmentManager.getFragment("EmoticonFragment") as EmoticonFragment
-                emoticonFragment.view!!.fragment_emoticon_fastScrollRecyclerView.stopScroll()
-                activity_main_nestedScrollView.smoothScrollTo(0, 0)
-                activity_main_bottomAppBar.performShow()
-                return@setOnClickListener
-            }
-            Snackbar.make(activity_main_coordinatorLayout, "咕咕咕", Snackbar.LENGTH_LONG)
-                .setAnchorView(activity_main_extendedFloatingActionButton)
-                .show()
-        }
+        activity_main_extendedFloatingActionButton.setOnClickListener(this)
         activity_main_nestedScrollView.setOnScrollChangeListener(this)
         activity_main_swipeRefreshLayout.setColorSchemeColors(
             resources.getColor(R.color.colorBlue500),
@@ -175,25 +202,31 @@ open class MainActivity : BaseActivity(),
         activity_main_swipeRefreshLayout.setOnRefreshListener(this)
     }
 
-    @SuppressLint("CheckResult")
-    protected fun requestPermission() {
-        rxPermissions!!.requestEach(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        ).subscribe {
-            when {
-                it.granted -> {
+    private fun smoothScrollToTop() {
+        val emoticonFragment = fragmentManager.getFragment("EmoticonPackageFragment") as EmoticonPackageFragment
+        emoticonFragment.view!!.fragment_emoticon_fastScrollRecyclerView.stopScroll()
+        activity_main_nestedScrollView.smoothScrollTo(0, 0)
+        activity_main_bottomAppBar.performShow()
+    }
 
-                }
-                else -> {
-                    fragmentManager.showFragment("PermissionsFragment")
-//                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-//                    val uri = Uri.fromParts("package", packageName, null)
-//                    intent.data = uri
-//                    startActivity(intent)
-                }
+    private fun openAuthorActivity() {
+        GlobalScope.launch {
+            delay(240)
+            withContext(Dispatchers.Main) {
+                val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    this@MainActivity,
+                    activity_main_extendedFloatingActionButton,
+                    "extendedFloatingActionButton"
+                ).toBundle()
+                startActivity(Intent(this@MainActivity, AuthorActivity::class.java), bundle)
             }
         }
+    }
+
+    fun openApplicationSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        intent.data = Uri.fromParts("package", packageName, null)
+        startActivity(intent)
     }
 
 }

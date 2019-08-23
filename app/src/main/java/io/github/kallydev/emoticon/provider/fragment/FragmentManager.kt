@@ -37,6 +37,14 @@ class FragmentManager(private val supportFragmentManager: FragmentManager) {
         fragmentTransaction.commit()
     }
 
+    fun hideAllFragment() {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        this.fragmentHashMap.forEach {
+            fragmentTransaction.hide(it.value)
+        }
+        fragmentTransaction.commit()
+    }
+
     fun showFragment(fragmentName: String) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         this.fragmentHashMap.forEach {
@@ -45,6 +53,7 @@ class FragmentManager(private val supportFragmentManager: FragmentManager) {
             }
         }
         fragmentTransaction.show(fragmentHashMap[fragmentName]!!)
+        fragmentTransaction.commit()
     }
 
     fun getFragment(fragmentName: String): Fragment? {

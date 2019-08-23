@@ -23,15 +23,29 @@ import androidx.recyclerview.widget.GridLayoutManager
 import io.github.kallydev.emoticon.R
 import io.github.kallydev.emoticon.adapter.EmoticonPackageAdapter
 import io.github.kallydev.emoticon.base.BaseFragment
+import io.github.kallydev.emoticon.module.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_emoticon.view.*
 
-class PermissionsFragment: BaseFragment() {
+class EmoticonPackageFragment : BaseFragment(), EmoticonPackageAdapter.OnItemClickListener {
 
     override fun getLayoutID(): Int {
-        return R.layout.fragment_permissions
+        return R.layout.fragment_emoticon_package
     }
 
     override fun onInit(view: View) {
+        view.fragment_emoticon_fastScrollRecyclerView.layoutManager =
+            GridLayoutManager(context!!, 4)
+        val emoticonPackageAdapter = EmoticonPackageAdapter(context!!)
+        view.fragment_emoticon_fastScrollRecyclerView.adapter = emoticonPackageAdapter
+        emoticonPackageAdapter.setOnItemClickListener(this)
+    }
+
+    override fun onItemClickListener(itemView: View, position: Int) {
+        val baseActivity = context as MainActivity
+        EmoticonFragment().show(baseActivity.supportFragmentManager, "dialog")
+    }
+
+    override fun onItemLongClickListener(itemView: View, position: Int) {
 
     }
 
