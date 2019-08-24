@@ -16,19 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.kallydev.emoticon.module.main
+package io.github.kallydev.emoticon.api
 
-import io.github.kallydev.emoticon.base.BaseView
-import io.github.kallydev.emoticon.bean.SourceBean
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 
-interface MainView : BaseView {
+object API {
 
-    fun showFragment(fragmentName: String)
-
-    fun onSourceLoading()
-
-    fun onSourceLoadedSuccessful(sourceBeanArrayList: ArrayList<SourceBean>)
-
-    fun onSourceLoadedError(state: Int)
+    val request = Retrofit.Builder()
+        .baseUrl("https://likeyuno.github.io/emoticon-api/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .build()
+        .create(ApiInterface::class.java)
 
 }

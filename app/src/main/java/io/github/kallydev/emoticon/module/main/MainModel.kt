@@ -18,9 +18,12 @@
 
 package io.github.kallydev.emoticon.module.main
 
+import io.github.kallydev.emoticon.api.API
+import io.github.kallydev.emoticon.api.json.IndexJson
 import io.github.kallydev.emoticon.base.BaseModel
 import io.github.kallydev.emoticon.bean.EmoticonPackageBean
 import io.github.kallydev.emoticon.provider.emoticon.EmoticonManager
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -28,10 +31,26 @@ import io.reactivex.schedulers.Schedulers
 
 class MainModel : BaseModel() {
 
-    fun loadEmoticonPackage(): Single<Array<EmoticonPackageBean>> {
+    fun loadLocalEmoticonPackage(): Single<Array<EmoticonPackageBean>> {
         return Single.create(SingleOnSubscribe<Array<EmoticonPackageBean>> {
             it.onSuccess(EmoticonManager.loadEmoticonPackage())
         }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+    }
+
+    fun loadNetworkEmoticonPackage(): Single<Array<EmoticonPackageBean>> {
+        return Single.create(SingleOnSubscribe<Array<EmoticonPackageBean>> { itA ->
+            val emoticonPackageBeanArrayList = ArrayList<EmoticonPackageBean>()
+            getIndex().subscribe {
+                for (packageName in it.packages) {
+                    emoticonPackageBeanArrayList.add(EmoticonPackageBean(packageName, true, arrayListOf()))
+                }
+                itA.onSuccess(emoticonPackageBeanArrayList.toTypedArray())
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+    }
+
+    fun getIndex(): Observable<IndexJson> {
+        return API.request.getIndex().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
     }
 
 }

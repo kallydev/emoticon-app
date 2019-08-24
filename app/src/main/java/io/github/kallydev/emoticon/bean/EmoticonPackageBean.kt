@@ -20,5 +20,6 @@ package io.github.kallydev.emoticon.bean
 
 data class EmoticonPackageBean(
     val packageName: String,
+    val isNetwork: Boolean,
     val emoticonBeanArray: ArrayList<EmoticonBean>
 )

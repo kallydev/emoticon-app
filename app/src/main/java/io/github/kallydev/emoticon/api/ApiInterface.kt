@@ -16,19 +16,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.kallydev.emoticon.module.main
+package io.github.kallydev.emoticon.api
 
-import io.github.kallydev.emoticon.base.BaseView
-import io.github.kallydev.emoticon.bean.SourceBean
+import io.github.kallydev.emoticon.api.json.IndexJson
+import io.reactivex.Observable
+import retrofit2.http.GET
 
-interface MainView : BaseView {
+interface ApiInterface {
 
-    fun showFragment(fragmentName: String)
-
-    fun onSourceLoading()
-
-    fun onSourceLoadedSuccessful(sourceBeanArrayList: ArrayList<SourceBean>)
-
-    fun onSourceLoadedError(state: Int)
+    @GET("index")
+    fun getIndex(): Observable<IndexJson>
 
 }

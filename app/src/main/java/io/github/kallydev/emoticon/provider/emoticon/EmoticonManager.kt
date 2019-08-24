@@ -29,6 +29,12 @@ object EmoticonManager {
     private val emoticonPackageRootFile =
         File(Environment.getExternalStorageDirectory().absolutePath + "/kallydev/emoticon")
 
+    private val configFile = File(emoticonPackageRootFile.absolutePath + "/config.json")
+
+    fun loadConfigFile() {
+
+    }
+
     fun loadEmoticonPackage(): Array<EmoticonPackageBean> {
         if (!emoticonPackageRootFile.exists()) {
             emoticonPackageRootFile.mkdirs()
@@ -39,7 +45,7 @@ object EmoticonManager {
         }
         emoticonPackageFile.forEach { it ->
             val emoticonBeanArrayList = ArrayList<EmoticonBean>()
-            emoticonPackageBeanArrayList.add(EmoticonPackageBean(it.name, emoticonBeanArrayList))
+            emoticonPackageBeanArrayList.add(EmoticonPackageBean(it.name, false, emoticonBeanArrayList))
             val emoticonFile = (it.listFiles() as Array<File>).filter {
                 Regex(".*.(jpg|png|gif)").matches(it.name)
             }

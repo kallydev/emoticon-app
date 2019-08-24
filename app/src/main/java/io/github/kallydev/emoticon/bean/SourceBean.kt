@@ -16,19 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.kallydev.emoticon.module.main
+package io.github.kallydev.emoticon.bean
 
-import io.github.kallydev.emoticon.base.BaseView
-import io.github.kallydev.emoticon.bean.SourceBean
-
-interface MainView : BaseView {
-
-    fun showFragment(fragmentName: String)
-
-    fun onSourceLoading()
-
-    fun onSourceLoadedSuccessful(sourceBeanArrayList: ArrayList<SourceBean>)
-
-    fun onSourceLoadedError(state: Int)
-
-}
+data class SourceBean(val name: String)

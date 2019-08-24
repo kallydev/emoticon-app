@@ -16,12 +16,11 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_emoticon_fastScrollRecyclerView"
+<com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_source_fastScrollRecyclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginStart="10dp"
-    android:layout_marginTop="@dimen/dimen_16dp"
     android:layout_marginEnd="10dp"
     android:layout_marginBottom="8dp"
     android:overScrollMode="never" />

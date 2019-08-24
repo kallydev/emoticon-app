@@ -34,14 +34,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import io.github.kallydev.emoticon.R
-import io.github.kallydev.emoticon.adapter.EmoticonPackageAdapter
+import io.github.kallydev.emoticon.adapter.SourceAdapter
 import io.github.kallydev.emoticon.base.BaseActivity
-import io.github.kallydev.emoticon.bean.EmoticonPackageBean
+import io.github.kallydev.emoticon.bean.SourceBean
 import io.github.kallydev.emoticon.module.author.AuthorActivity
-import io.github.kallydev.emoticon.module.main.MainActivity.Fragment.EMOTICON_PACKAGE
-import io.github.kallydev.emoticon.module.main.MainActivity.Fragment.PERMISSION
 import io.github.kallydev.emoticon.module.main.fragment.EmoticonPackageFragment
-import io.github.kallydev.emoticon.module.main.fragment.PermissionFragment
 import io.github.kallydev.emoticon.provider.fragment.FragmentManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_emoticon.view.*
@@ -68,7 +65,7 @@ class MainActivity : BaseActivity(), MainView,
 
     override fun onInit() {
         initView()
-        initFragment()
+        // initFragment()
         onRefresh()
     }
 
@@ -146,38 +143,69 @@ class MainActivity : BaseActivity(), MainView,
     }
 
     override fun showFragment(fragmentName: String) {
-        fragmentManager.showFragment(fragmentName)
+        // fragmentManager.showFragment(fragmentName)
     }
 
-    override fun onEmoticonPackageLoading() {
+    override fun onSourceLoading() {
         if (!activity_main_swipeRefreshLayout.isRefreshing) {
             activity_main_swipeRefreshLayout.isRefreshing = true
         }
     }
 
-    override fun onEmoticonPackageLoadedSuccessful(emoticonPackageBeanArray: Array<EmoticonPackageBean>) {
+    override fun onSourceLoadedSuccessful(sourceBeanArrayList: ArrayList<SourceBean>) {
         activity_main_swipeRefreshLayout.isRefreshing = false
-        val emoticonFragment = fragmentManager.getFragment("EmoticonPackageFragment") as EmoticonPackageFragment
-        val emoticonFragmentRecyclerView = emoticonFragment.view!!.fragment_emoticon_fastScrollRecyclerView
-        val emoticonPackageAdapter = emoticonFragmentRecyclerView.adapter as EmoticonPackageAdapter
-        emoticonPackageAdapter.loadEmoticonPackage(emoticonPackageBeanArray)
+        val sourceAdapter = activity_main_viewPager.adapter as SourceAdapter
+        sourceAdapter.setSourceArrayList(sourceBeanArrayList)
     }
 
-    override fun onEmoticonPackageLoadedError(state: Int) {
-        activity_main_swipeRefreshLayout.isRefreshing = false
-        showFragment(PERMISSION)
+    override fun onSourceLoadedError(state: Int) {
+
     }
 
-    private fun initFragment() {
-        fragmentManager.addFragmentArray(
-            R.id.activity_main_frameLayout,
-            hashMapOf(
-                EMOTICON_PACKAGE to EmoticonPackageFragment(),
-                PERMISSION to PermissionFragment()
-            )
-        )
-        fragmentManager.hideAllFragment()
-    }
+//    override fun onEmoticonPackageLoading() {
+//        if (!activity_main_swipeRefreshLayout.isRefreshing) {
+//            activity_main_swipeRefreshLayout.isRefreshing = true
+//        }
+//    }
+//
+//    override fun onLocalEmoticonPackageLoadedSuccessful(emoticonPackageBeanArray: Array<EmoticonPackageBean>) {
+////        activity_main_swipeRefreshLayout.isRefreshing = false
+////        val emoticonFragment = fragmentManager.getFragment("EmoticonPackageFragment") as EmoticonPackageFragment
+////        val emoticonFragmentRecyclerView = emoticonFragment.view!!.fragment_emoticon_fastScrollRecyclerView
+////        val emoticonPackageAdapter = emoticonFragmentRecyclerView.adapter as EmoticonPackageAdapter
+////        emoticonPackageAdapter.loadEmoticonPackage(emoticonPackageBeanArray, false)
+//    }
+//
+//    override fun onLocalEmoticonPackageLoadedError(state: Int) {
+////        activity_main_swipeRefreshLayout.isRefreshing = false
+////        showFragment(PERMISSION)
+//    }
+//
+//    override fun onNetworkEmoticonPackageLoadedSuccessful(emoticonPackageBeanArray: Array<EmoticonPackageBean>) {
+//        Snackbar.make(activity_main_coordinatorLayout, "咕咕咕", Snackbar.LENGTH_LONG)
+//            .setAnchorView(activity_main_extendedFloatingActionButton)
+//            .show()
+//        // activity_main_swipeRefreshLayout.isRefreshing = false
+//        val emoticonFragment = fragmentManager.getFragment("EmoticonPackageFragment") as EmoticonPackageFragment
+//        val emoticonFragmentRecyclerView = emoticonFragment.view!!.fragment_emoticon_fastScrollRecyclerView
+//        val emoticonPackageAdapter = emoticonFragmentRecyclerView.adapter as EmoticonPackageAdapter
+//        emoticonPackageAdapter.loadEmoticonPackage(emoticonPackageBeanArray, true)
+//    }
+//
+//    override fun onNetworkEmoticonPackageLoadedError(state: Int) {
+//
+//    }
+
+//    private fun initFragment() {
+//        fragmentManager.addFragmentArray(
+//            R.id.activity_main_frameLayout,
+//            hashMapOf(
+//                EMOTICON_PACKAGE to EmoticonPackageFragment(),
+//                PERMISSION to PermissionFragment()
+//            )
+//        )
+//        fragmentManager.hideAllFragment()
+//    }
 
     private fun initView() {
         setSupportActionBar(activity_main_bottomAppBar)
@@ -200,6 +228,8 @@ class MainActivity : BaseActivity(), MainView,
             resources.getColor(R.color.colorPinkA200)
         )
         activity_main_swipeRefreshLayout.setOnRefreshListener(this)
+        activity_main_viewPager.adapter = SourceAdapter(supportFragmentManager)
+        activity_main_tabLayout.setupWithViewPager(activity_main_viewPager)
     }
 
     private fun smoothScrollToTop() {

@@ -22,30 +22,19 @@ import android.Manifest
 import com.tbruyelle.rxpermissions2.Permission
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.github.kallydev.emoticon.base.BaseViewModel
-import io.github.kallydev.emoticon.bean.EmoticonPackageBean
+import io.github.kallydev.emoticon.bean.SourceBean
 import io.reactivex.Observer
-import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 
 class MainViewModel(private val view: MainView, private val model: MainModel) : BaseViewModel(view, model) {
 
-    fun loadEmoticonPackage() {
-        model.loadEmoticonPackage()
-            .subscribe(object : SingleObserver<Array<EmoticonPackageBean>> {
-
-                override fun onSuccess(t: Array<EmoticonPackageBean>) {
-                    view.showFragment(MainActivity.Fragment.EMOTICON_PACKAGE)
-                    view.onEmoticonPackageLoadedSuccessful(t)
-                }
-
-                override fun onSubscribe(d: Disposable) {
-
-                }
-
-                override fun onError(e: Throwable) {
-                    view.showFragment(MainActivity.Fragment.PERMISSION)
-                }
-            })
+    fun loadSource() {
+        view.onSourceLoadedSuccessful(
+            arrayListOf(
+                SourceBean(""), SourceBean(""),
+                SourceBean(""), SourceBean("")
+            )
+        )
     }
 
     fun checkPermissionsAndLoadEmoticonPackage(rxPermissions: RxPermissions) {
@@ -64,10 +53,10 @@ class MainViewModel(private val view: MainView, private val model: MainModel) : 
 
             override fun onNext(t: Permission) {
                 if (t.granted) {
-                    view.onEmoticonPackageLoading()
-                    loadEmoticonPackage()
+                    view.onSourceLoading()
+                    loadSource()
                 } else {
-                    view.onEmoticonPackageLoadedError(0)
+                    view.onSourceLoadedError(0)
                 }
             }
 
@@ -77,5 +66,42 @@ class MainViewModel(private val view: MainView, private val model: MainModel) : 
 
         })
     }
+
+//    fun loadEmoticonPackage() {
+//        model.loadLocalEmoticonPackage()
+//            .subscribe(object : SingleObserver<Array<EmoticonPackageBean>> {
+//
+//                override fun onSuccess(t: Array<EmoticonPackageBean>) {
+//                    view.showFragment(MainActivity.Fragment.EMOTICON_PACKAGE)
+//                    view.onLocalEmoticonPackageLoadedSuccessful(t)
+//                }
+//
+//                override fun onSubscribe(d: Disposable) {
+//
+//                }
+//
+//                override fun onError(e: Throwable) {
+//                    view.showFragment(MainActivity.Fragment.PERMISSION)
+//                }
+//            })
+//    }
+//
+//    fun loadNetworkEmoticonPackage() {
+//        model.loadNetworkEmoticonPackage().subscribe(object : SingleObserver<Array<EmoticonPackageBean>> {
+//
+//            override fun onSuccess(t: Array<EmoticonPackageBean>) {
+//                view.showFragment(MainActivity.Fragment.EMOTICON_PACKAGE)
+//                view.onNetworkEmoticonPackageLoadedSuccessful(t)
+//            }
+//
+//            override fun onSubscribe(d: Disposable) {
+//
+//            }
+//
+//            override fun onError(e: Throwable) {
+//                e.printStackTrace()
+//            }
+//        })
+//    }
 
 }

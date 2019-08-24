@@ -28,8 +28,8 @@ import io.github.kallydev.emoticon.R
 import io.github.kallydev.emoticon.bean.EmoticonPackageBean
 import kotlinx.android.synthetic.main.item_emoticon_package.view.*
 
-class EmoticonPackageAdapter(private val context: Context) :
-    RecyclerView.Adapter<EmoticonPackageAdapter.EmoticonViewHolder>() {
+class TempEmoticonPackageAdapter(private val context: Context) :
+    RecyclerView.Adapter<TempEmoticonPackageAdapter.EmoticonViewHolder>() {
 
     private val emoticonPackageBeanArrayList = ArrayList<EmoticonPackageBean>()
     private var onItemClickListener: OnItemClickListener? = null
@@ -58,16 +58,9 @@ class EmoticonPackageAdapter(private val context: Context) :
     }
 
     override fun onBindViewHolder(holder: EmoticonViewHolder, position: Int) {
-        val emoticonPackageBean = emoticonPackageBeanArrayList[position]
-        val url = if (emoticonPackageBean.isNetwork) {
-            "https://likeyuno.github.io/emoticon-api/packages/${emoticonPackageBean.packageName}/001.png"
-        } else {
-            emoticonPackageBean.emoticonBeanArray[0].file
-        }
         Glide.with(context)
-            .load(url)
+            .load(context.resources.getDrawable(R.drawable.ic_launcher_background))
             .into(holder.itemView.item_emoticon_package_appCompatImageView)
-        holder.itemView.item_emoticon_package_appCompatTextView.text = emoticonPackageBean.packageName
         holder.itemView.setOnClickListener {
             onItemClickListener?.onItemClickListener(it, position)
         }
