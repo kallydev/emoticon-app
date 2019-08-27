@@ -16,15 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.kallydev.emoticon
+package io.github.kallydev.emoticon.module.main
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import io.github.kallydev.emoticon.base.BaseView
+import io.github.kallydev.emoticon.bean.SourceBean
 
-class MainActivity : AppCompatActivity() {
+interface MainView : BaseView {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
+    fun showFragment(fragmentName: String)
+
+    fun onSourceLoading()
+
+    fun onSourceLoadedSuccessful(sourceBeanArrayList: ArrayList<SourceBean>)
+
+    fun onSourceLoadedError(state: Int)
+
 }
